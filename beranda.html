@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beranda</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; }
+
+  body {
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1b2a49);
+    background-size: 400% 400%;
+    animation: gradasi 15s ease infinite;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  @keyframes gradasi {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .bintang {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: kedip 4s ease-in-out infinite;
+  }
+
+  @keyframes kedip {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50%      { opacity: 0.9; transform: scale(1); }
+  }
+
+  .jam {
+    font-size: 72px;
+    font-weight: 200;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px rgba(150, 130, 255, 0.8);
+    animation: napas 4s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes napas {
+    0%, 100% { text-shadow: 0 0 10px rgba(150, 130, 255, 0.5); }
+    50%      { text-shadow: 0 0 30px rgba(150, 130, 255, 1); }
+  }
+
+  .tanggal {
+    margin-top: 8px;
+    font-size: 18px;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  .sapa {
+    margin-top: 24px;
+    font-size: 22px;
+    opacity: 0.9;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+  <div class="jam" id="jam">00:00</div>
+  <div class="tanggal" id="tanggal"></div>
+  <div class="sapa" id="sapa">Selamat datang!</div>
+
+<script>
+  // Bintang acak
+  for (let i = 0; i < 60; i++) {
+    const b = document.createElement('div');
+    b.className = 'bintang';
+    const ukuran = Math.random() * 3 + 1;
+    b.style.width = b.style.height = ukuran + 'px';
+    b.style.left = Math.random() * 100 + '%';
+    b.style.top = Math.random() * 100 + '%';
+    b.style.animationDelay = (Math.random() * 4) + 's';
+    b.style.animationDuration = (3 + Math.random() * 3) + 's';
+    document.body.appendChild(b);
+  }
+
+  // Jam dan tanggal
+  function perbarui() {
+    const n = new Date();
+    const p = x => String(x).padStart(2, '0');
+    document.getElementById('jam').textContent = p(n.getHours()) + ':' + p(n.getMinutes());
+    document.getElementById('tanggal').textContent =
+      n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const j = n.getHours();
+    document.getElementById('sapa').textContent =
+      j < 11 ? 'Selamat pagi!' : j < 15 ? 'Selamat siang!' : j < 18 ? 'Selamat sore!' : 'Selamat malam!';
+  }
+  perbarui();
+  setInterval(perbarui, 1000);
+</script>
+</body>
+</html>
